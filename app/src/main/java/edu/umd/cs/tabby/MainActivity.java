@@ -46,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_account_box_24dp);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_bookmark_outline_24dp);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_map_24dp);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_schedule_24dp);
+        tabLayout.getTabAt(4).setIcon(R.drawable.ic_border_color_24dp);
         //Setting tabs from adapter
         //tabLayout.setTabsFromPagerAdapter(mTabsPagerAdapter);
 

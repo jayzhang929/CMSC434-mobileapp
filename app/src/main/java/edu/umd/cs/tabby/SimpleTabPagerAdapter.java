@@ -1,5 +1,6 @@
 package edu.umd.cs.tabby;
 
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -30,17 +31,18 @@ public class SimpleTabPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
+
         switch (position) {
             case 0:
-                return "tab1";
+                return "Who";
             case 1:
-                return "tab2";
+                return "What";
             case 2:
-                return "tab3";
+                return "Where";
             case 3:
-                return "tab4";
+                return "When";
             case 4:
-                return "tab5";
+                return "How";
         }
         return null;
     }

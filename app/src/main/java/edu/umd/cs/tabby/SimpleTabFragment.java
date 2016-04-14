@@ -32,7 +32,7 @@ public class SimpleTabFragment extends Fragment {
         SimpleTabFragment fragment = new SimpleTabFragment();
         Bundle args = new Bundle();
         args.putInt(TAB_NUMBER, tabNumber);
-        if (tabNumber == 2)
+        if (tabNumber == 3)
             args.putInt(OPEN_MAPS, 1);
 
         fragment.setArguments(args);
