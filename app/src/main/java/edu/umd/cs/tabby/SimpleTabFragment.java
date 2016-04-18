@@ -25,6 +25,7 @@ public class SimpleTabFragment extends Fragment {
      */
     private static final String TAB_NUMBER = "TAB_NUMBER";
     private static final String OPEN_MAPS = "OPEN_MAPS";
+    private static final String WHAT_PAGE = "WHAT_PAGE";
     private static final String CANDIDATE_INFO = "CANDIDATE_INFO";
 
     public SimpleTabFragment() {
@@ -40,6 +41,8 @@ public class SimpleTabFragment extends Fragment {
         args.putInt(TAB_NUMBER, tabNumber);
         if (tabNumber == 1)
           args.putInt(CANDIDATE_INFO, 1);
+        else if (tabNumber == 2)
+            args.putInt(WHAT_PAGE, 2);
         else if (tabNumber == 3)
             args.putInt(OPEN_MAPS, 3);
 
@@ -61,8 +64,11 @@ public class SimpleTabFragment extends Fragment {
             ExpandableListView expandableListView = (ExpandableListView) rootView.findViewById(R.id.expLstView);
             expandableListView.setAdapter(adapter);
 
+        } else if (getArguments().containsKey(WHAT_PAGE)) {
+            rootView = inflater.inflate(R.layout.what, container, false);
+
         } else if (getArguments().containsKey(OPEN_MAPS)) {
-            rootView = inflater.inflate(R.layout.polling_location, container, false);
+            rootView = inflater.inflate(R.layout.where, container, false);
             Button button = (Button) rootView.findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override

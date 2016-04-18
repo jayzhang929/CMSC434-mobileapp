@@ -7,4 +7,5 @@
     <dimen name="tab_main_title">42dp</dimen>
     <dimen name="tab_sub_title">34dp</dimen>
     <dimen name="list_header">26dp</dimen>
+    <dimen name="text_size">18dp</dimen>
 </resources>
