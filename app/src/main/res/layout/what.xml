@@ -19,23 +19,11 @@
         android:textSize="@dimen/tab_sub_title"
         android:gravity="center"
         android:layout_marginBottom="@dimen/list_header"/>
-    <ScrollView
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="false"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/what_information"
-                android:textSize="@dimen/text_size"/>
-        </LinearLayout>
-
-
-    </ScrollView>
+        android:layout_height="wrap_content"
+        android:text="@string/what_information"
+        android:id="@+id/whatContent"/>
 
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +25,9 @@ public class SimpleTabFragment extends Fragment {
      * fragment.
      */
     private static final String TAB_NUMBER = "TAB_NUMBER";
-    private static final String OPEN_MAPS = "OPEN_MAPS";
+    private static final String WHERE_PAGE = "OPEN_MAPS";
     private static final String WHAT_PAGE = "WHAT_PAGE";
-    private static final String CANDIDATE_INFO = "CANDIDATE_INFO";
+    private static final String WHO_PAGE = "CANDIDATE_INFO";
 
     public SimpleTabFragment() {
     }
@@ -40,11 +41,11 @@ public class SimpleTabFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt(TAB_NUMBER, tabNumber);
         if (tabNumber == 1)
-          args.putInt(CANDIDATE_INFO, 1);
+          args.putInt(WHO_PAGE, 1);
         else if (tabNumber == 2)
             args.putInt(WHAT_PAGE, 2);
         else if (tabNumber == 3)
-            args.putInt(OPEN_MAPS, 3);
+            args.putInt(WHERE_PAGE, 3);
 
         fragment.setArguments(args);
 
@@ -55,7 +56,7 @@ public class SimpleTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView;
-        if (getArguments().containsKey(CANDIDATE_INFO)) {
+        if (getArguments().containsKey(WHO_PAGE)) {
             rootView = inflater.inflate(R.layout.who, container, false);
             ArrayList<String> candidates = prepareCandidateData();
             HashMap<String, List<String>> childText = prepareChildTextData(candidates);
@@ -66,8 +67,8 @@ public class SimpleTabFragment extends Fragment {
 
         } else if (getArguments().containsKey(WHAT_PAGE)) {
             rootView = inflater.inflate(R.layout.what, container, false);
-
-        } else if (getArguments().containsKey(OPEN_MAPS)) {
+            // ((TextView)rootView.findViewById(R.id.whatContent)).setMovementMethod(new ScrollingMovementMethod());
+        } else if (getArguments().containsKey(WHERE_PAGE)) {
             rootView = inflater.inflate(R.layout.where, container, false);
             Button button = (Button) rootView.findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
