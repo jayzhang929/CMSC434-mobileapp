@@ -28,6 +28,7 @@ public class SimpleTabFragment extends Fragment {
     private static final String WHERE_PAGE = "OPEN_MAPS";
     private static final String WHAT_PAGE = "WHAT_PAGE";
     private static final String WHO_PAGE = "CANDIDATE_INFO";
+    private static final String WHEN_PAGE = "WHEN PAGE";
 
     public SimpleTabFragment() {
     }
@@ -46,6 +47,8 @@ public class SimpleTabFragment extends Fragment {
             args.putInt(WHAT_PAGE, 2);
         else if (tabNumber == 3)
             args.putInt(WHERE_PAGE, 3);
+        else if (tabNumber == 4)
+            args.putInt(WHEN_PAGE, 4);
 
         fragment.setArguments(args);
 
