@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="General Election"
+        android:textStyle="bold"
+        android:textSize="@dimen/tab_main_title"
+        android:gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="WHO"
+        android:textStyle="bold"
+        android:textSize="@dimen/tab_sub_title"
+        android:gravity="center"/>
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/list_header"
+        android:id="@+id/expLstView"></ExpandableListView>
+</LinearLayout>

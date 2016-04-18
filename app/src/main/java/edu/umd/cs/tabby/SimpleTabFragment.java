@@ -8,7 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A tab fragment containing a simple view.
@@ -20,6 +25,7 @@ public class SimpleTabFragment extends Fragment {
      */
     private static final String TAB_NUMBER = "TAB_NUMBER";
     private static final String OPEN_MAPS = "OPEN_MAPS";
+    private static final String CANDIDATE_INFO = "CANDIDATE_INFO";
 
     public SimpleTabFragment() {
     }
@@ -32,8 +38,10 @@ public class SimpleTabFragment extends Fragment {
         SimpleTabFragment fragment = new SimpleTabFragment();
         Bundle args = new Bundle();
         args.putInt(TAB_NUMBER, tabNumber);
-        if (tabNumber == 3)
-            args.putInt(OPEN_MAPS, 1);
+        if (tabNumber == 1)
+          args.putInt(CANDIDATE_INFO, 1);
+        else if (tabNumber == 3)
+            args.putInt(OPEN_MAPS, 3);
 
         fragment.setArguments(args);
 
@@ -44,7 +52,16 @@ public class SimpleTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView;
-        if (getArguments().containsKey(OPEN_MAPS)) {
+        if (getArguments().containsKey(CANDIDATE_INFO)) {
+            rootView = inflater.inflate(R.layout.who, container, false);
+            ArrayList<String> candidates = prepareCandidateData();
+            HashMap<String, List<String>> childText = prepareChildTextData(candidates);
+
+            ExpandableListAdapter adapter = new ExpandableListAdapter(getActivity(), candidates, childText);
+            ExpandableListView expandableListView = (ExpandableListView) rootView.findViewById(R.id.expLstView);
+            expandableListView.setAdapter(adapter);
+
+        } else if (getArguments().containsKey(OPEN_MAPS)) {
             rootView = inflater.inflate(R.layout.polling_location, container, false);
             Button button = (Button) rootView.findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +84,40 @@ public class SimpleTabFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    private ArrayList<String> prepareCandidateData(){
+        ArrayList<String> candidates = new ArrayList<String>();
+        candidates.add("Hillary Clinton");
+        candidates.add("Bernie Sanders");
+        candidates.add("Ted Cruz");
+        candidates.add("Trump");
+
+        return candidates;
+    }
+
+    private HashMap<String, List<String>> prepareChildTextData(ArrayList<String> candidates){
+        HashMap<String, List<String>> childText = new HashMap<String, List<String>>();
+        for (String candidate : candidates) {
+            ArrayList<String> description = new ArrayList<String>();
+            switch (candidate) {
+                case "Hillary Clinton":
+                    description.add(getResources().getString(R.string.clinton_description));
+                    break;
+                case "Bernie Sanders":
+                    description.add(getResources().getString(R.string.sanders_description));
+                    break;
+                case "Ted Cruz":
+                    description.add(getResources().getString(R.string.cruz_description));
+                    break;
+                case "Trump":
+                    description.add(getResources().getString(R.string.trump_description));
+                    break;
+            }
+            childText.put(candidate, description);
+        }
+
+        return childText;
     }
 }
 
