@@ -75,9 +75,9 @@ public class SimpleTabFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent navigation = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr="
-                            + 38.9841374 + ","
-                            + -76.9447599 + "&daddr="
-                            + 39.4405023 + "," + -77.4542221));
+                            + 38.990786 + ","
+                            + -76.9388159 + "&daddr="
+                            + 39.0051128 + "," + -76.9656447));
                     navigation.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
                     startActivity(navigation);
                 }
