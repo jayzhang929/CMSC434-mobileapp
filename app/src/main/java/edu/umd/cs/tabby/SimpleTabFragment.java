@@ -28,6 +28,8 @@ public class SimpleTabFragment extends Fragment {
     private static final String WHERE_PAGE = "OPEN_MAPS";
     private static final String WHAT_PAGE = "WHAT_PAGE";
     private static final String WHO_PAGE = "CANDIDATE_INFO";
+    private static final String WHEN_PAGE = "WHEN PAGE";
+    private static final String HOW_PAGE = "HOW PAGE";
 
     public SimpleTabFragment() {
     }
@@ -46,6 +48,10 @@ public class SimpleTabFragment extends Fragment {
             args.putInt(WHAT_PAGE, 2);
         else if (tabNumber == 3)
             args.putInt(WHERE_PAGE, 3);
+        else if (tabNumber == 4)
+            args.putInt(WHEN_PAGE, 4);
+        else if (tabNumber == 5)
+            args.putInt(HOW_PAGE, 4);
 
         fragment.setArguments(args);
 
@@ -79,10 +85,15 @@ public class SimpleTabFragment extends Fragment {
                             + -76.9388159 + "&daddr="
                             + 39.0051128 + "," + -76.9656447));
                     navigation.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+
                     startActivity(navigation);
                 }
             });
 
+        } else if (getArguments().containsKey(WHEN_PAGE)) {
+            rootView = inflater.inflate(R.layout.when, container, false);
+        }  else if (getArguments().containsKey(HOW_PAGE)) {
+            rootView = inflater.inflate(R.layout.how, container, false);
         } else {
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.tab_label);
