@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ public class SimpleTabFragment extends Fragment {
     private static final String WHO_PAGE = "CANDIDATE_INFO";
     private static final String WHEN_PAGE = "WHEN PAGE";
     private static final String HOW_PAGE = "HOW PAGE";
+
+    private static int lastExpandedPosition = -1;
 
     public SimpleTabFragment() {
     }
@@ -64,12 +67,27 @@ public class SimpleTabFragment extends Fragment {
         View rootView;
         if (getArguments().containsKey(WHO_PAGE)) {
             rootView = inflater.inflate(R.layout.who, container, false);
-            ArrayList<String> candidates = prepareCandidateData();
+            final ArrayList<String> candidates = prepareCandidateData();
             HashMap<String, List<String>> childText = prepareChildTextData(candidates);
 
             ExpandableListAdapter adapter = new ExpandableListAdapter(getActivity(), candidates, childText);
             ExpandableListView expandableListView = (ExpandableListView) rootView.findViewById(R.id.expLstView);
             expandableListView.setAdapter(adapter);
+            expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                @Override
+                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                    if (lastExpandedPosition != -1)
+                        parent.collapseGroup(lastExpandedPosition);
+
+                    if (lastExpandedPosition != groupPosition) {
+                        parent.expandGroup(groupPosition);
+                        lastExpandedPosition = groupPosition;
+                    } else
+                        lastExpandedPosition = -1;
+
+                    return true;
+                }
+            });
 
         } else if (getArguments().containsKey(WHAT_PAGE)) {
             rootView = inflater.inflate(R.layout.what, container, false);
