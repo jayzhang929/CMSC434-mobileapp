@@ -69,29 +69,18 @@ public class SimpleTabFragment extends Fragment {
             rootView = inflater.inflate(R.layout.who, container, false);
             final ArrayList<String> candidates = prepareCandidateData();
             HashMap<String, List<String>> childText = prepareChildTextData(candidates);
-
-            ExpandableListAdapter adapter = new ExpandableListAdapter(getActivity(), candidates, childText);
             ExpandableListView expandableListView = (ExpandableListView) rootView.findViewById(R.id.expLstView);
-            expandableListView.setAdapter(adapter);
-            expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-                @Override
-                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                    if (lastExpandedPosition != -1)
-                        parent.collapseGroup(lastExpandedPosition);
 
-                    if (lastExpandedPosition != groupPosition) {
-                        parent.expandGroup(groupPosition);
-                        lastExpandedPosition = groupPosition;
-                    } else
-                        lastExpandedPosition = -1;
-
-                    return true;
-                }
-            });
+            buildExpandableList(expandableListView, candidates, childText);
 
         } else if (getArguments().containsKey(WHAT_PAGE)) {
             rootView = inflater.inflate(R.layout.what, container, false);
-            // ((TextView)rootView.findViewById(R.id.whatContent)).setMovementMethod(new ScrollingMovementMethod());
+            ArrayList<String> topics = prepareTopicsWhatPage();
+            HashMap<String, List<String>> childText = prepareWhatPageChildTextData(topics);
+            ExpandableListView expandableListView = (ExpandableListView) rootView.findViewById(R.id.whatPageExpLstView);
+
+            buildExpandableList(expandableListView, topics, childText);
+
         } else if (getArguments().containsKey(WHERE_PAGE)) {
             rootView = inflater.inflate(R.layout.where, container, false);
             Button button = (Button) rootView.findViewById(R.id.button);
@@ -112,6 +101,12 @@ public class SimpleTabFragment extends Fragment {
             rootView = inflater.inflate(R.layout.when, container, false);
         }  else if (getArguments().containsKey(HOW_PAGE)) {
             rootView = inflater.inflate(R.layout.how, container, false);
+            ArrayList<String> topics = prepareTopicsHowPage();
+            HashMap<String, List<String>> childText = prepareHowPageChildTextData(topics);
+            ExpandableListView expandableListView = (ExpandableListView) rootView.findViewById(R.id.HowPageExpLstView);
+
+            buildExpandableList(expandableListView, topics, childText);
+
         } else {
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.tab_label);
@@ -154,6 +149,82 @@ public class SimpleTabFragment extends Fragment {
         }
 
         return childText;
+    }
+
+    private void buildExpandableList(ExpandableListView expandableListView, ArrayList<String> group, HashMap<String, List<String>> children) {
+        ExpandableListAdapter adapter = new ExpandableListAdapter(getActivity(), group, children);
+        expandableListView.setAdapter(adapter);
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if (lastExpandedPosition != -1)
+                    parent.collapseGroup(lastExpandedPosition);
+
+                if (lastExpandedPosition != groupPosition) {
+                    parent.expandGroup(groupPosition);
+                    lastExpandedPosition = groupPosition;
+                } else
+                    lastExpandedPosition = -1;
+
+                return true;
+            }
+        });
+    }
+
+    private ArrayList<String> prepareTopicsWhatPage() {
+        ArrayList<String> topics = new ArrayList<String>();
+        topics.add("Definition");
+        topics.add("Presidential System");
+        topics.add("Summary");
+        return topics;
+    }
+
+    private HashMap<String, List<String>> prepareWhatPageChildTextData(ArrayList<String> topics) {
+        HashMap<String, List<String>> childTextData = new HashMap<>();
+        for (String topic : topics) {
+            ArrayList<String> contents = new ArrayList<>();
+            switch (topic) {
+                case "Definition":
+                    contents.add(getResources().getString(R.string.what_definition));
+                    break;
+                case "Presidential System":
+                    contents.add(getResources().getString(R.string.what_presidential_system));
+                    break;
+                case "Summary":
+                    contents.add(getResources().getString(R.string.what_information));
+                    break;
+            }
+            childTextData.put(topic, contents);
+        }
+        return childTextData;
+    }
+
+    private ArrayList<String> prepareTopicsHowPage() {
+        ArrayList<String> topics = new ArrayList<>();
+        topics.add("Definition");
+        topics.add("Candidate Process");
+        topics.add("Election Process");
+        return topics;
+    }
+
+    private HashMap<String, List<String>> prepareHowPageChildTextData(ArrayList<String> topics) {
+        HashMap<String, List<String>> childTextData = new HashMap<>();
+        for (String topic : topics) {
+            ArrayList<String> contents = new ArrayList<>();
+            switch (topic) {
+                case "Definition":
+                    contents.add(getResources().getString(R.string.how_definition));
+                    break;
+                case "Candidate Process":
+                    contents.add(getResources().getString(R.string.how_candidate_process));
+                    break;
+                case "Election Process":
+                    contents.add(getResources().getString(R.string.how_information));
+                    break;
+            }
+            childTextData.put(topic, contents);
+        }
+        return childTextData;
     }
 }
 

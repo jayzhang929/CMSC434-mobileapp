@@ -20,10 +20,9 @@
         android:gravity="center"
         android:layout_marginBottom="@dimen/list_header"/>
 
-    <TextView
+    <ExpandableListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/how_information"
-        android:id="@+id/howContent"/>
+        android:layout_height="match_parent"
+        android:id="@+id/HowPageExpLstView"></ExpandableListView>
 
 </LinearLayout>
