@@ -1,6 +1,25 @@
 <resources>
     <string name="app_name">Empowering the Voter</string>
     <string name="action_settings">Settings</string>
+    <string name="done_string">Done:</string>
+    <string name="priority_string">Priority:</string>
+    <string name="date_string">Date:</string>
+    <string name="add_new_todo_item_string">Add New ToDo Item</string>
+    <string name="title_string">Title</string>
+    <string name="status_string">Status</string>
+    <string name="not_done_string">Not Done</string>
+    <string name="priority_low_string">Low</string>
+    <string name="priority_medium_string">Medium</string>
+    <string name="priority_high_string">High</string>
+    <string name="time_and_date_string">Time and Date</string>
+    <string name="no_date_set_string">0000&#8211;00&#8211;00</string>
+    <string name="no_time_set_string">00:00:00</string>
+    <string name="choose_date_string">Choose Date</string>
+    <string name="choose_time_string">Choose Time</string>
+    <string name="cancel_string">Cancel</string>
+    <string name="reset_string">Reset</string>
+    <string name="submit_string">Submit</string>
+    <string name="enter_title_string">Enter Title</string>
     <string name="clinton_description">An American politician. She is a candidate for the Democratic nomination for President of the United States in the 2016 election. She was the 67th United States Secretary of State from 2009 to 2013. From 2001 to 2009, Clinton served as a United States Senator from New York. She is the wife of the 42nd President of the United States Bill Clinton, and was First Lady of the United States during his tenure from 1993 to 2001.</string>
     <string name="sanders_description">An American politician and the junior United States senator from Vermont. He is a candidate for the Democratic nomination for President of the United States in the 2016 election. A member of the Democratic Party since 2015,[2] Sanders had been the longest-serving independent in U.S. congressional history, though his caucusing with the Democrats entitled him to committee assignments and at times gave Democrats a majority. Sanders became the ranking minority member on the Senate Budget Committee in January 2015; he had previously served for two years as chair of the Senate Veterans\' Affairs Committee.</string>
     <string name="cruz_description">An American politician and the junior United States Senator from Texas. He is a candidate for the Republican nomination for President of the United States in the 2016 election.</string>

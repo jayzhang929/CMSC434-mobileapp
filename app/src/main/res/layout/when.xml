@@ -48,4 +48,12 @@
         android:gravity="center"
         android:text="@string/election_date"/>
 
+    <Button
+        android:layout_width="177dp"
+        android:layout_height="61dp"
+        android:layout_marginRight="50dp"
+        android:text="Set Notifications"
+        android:id="@+id/notificationsButton"
+        android:layout_gravity="center_horizontal" />
+
 </LinearLayout>
