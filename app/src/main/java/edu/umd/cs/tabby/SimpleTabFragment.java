@@ -92,6 +92,14 @@ public class SimpleTabFragment extends Fragment {
 
         } else if (getArguments().containsKey(WHEN_PAGE)) {
             rootView = inflater.inflate(R.layout.when, container, false);
+            Button button = (Button) rootView.findViewById(R.id.notificationsButton);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent notification = new Intent(getContext(), ToDoManagerActivity.class);
+                    startActivity(notification);
+                }
+            });
         }  else if (getArguments().containsKey(HOW_PAGE)) {
             rootView = inflater.inflate(R.layout.how, container, false);
         } else {
