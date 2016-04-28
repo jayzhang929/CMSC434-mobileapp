@@ -1,9 +1,17 @@
 package edu.umd.cs.tabby;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +21,10 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +32,7 @@ import java.util.List;
 /**
  * A tab fragment containing a simple view.
  */
-public class SimpleTabFragment extends Fragment {
+public class SimpleTabFragment extends Fragment implements LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener  {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -31,8 +43,12 @@ public class SimpleTabFragment extends Fragment {
     private static final String WHO_PAGE = "CANDIDATE_INFO";
     private static final String WHEN_PAGE = "WHEN PAGE";
     private static final String HOW_PAGE = "HOW PAGE";
+    public static final int LOCATION_PERMISSION = 1;
 
     private static int lastExpandedPosition = -1;
+
+    private LocationManager mLocationManager;
+    private GoogleApiClient mGoogleApiClient;
 
     public SimpleTabFragment() {
     }
@@ -46,7 +62,7 @@ public class SimpleTabFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt(TAB_NUMBER, tabNumber);
         if (tabNumber == 1)
-          args.putInt(WHO_PAGE, 1);
+            args.putInt(WHO_PAGE, 1);
         else if (tabNumber == 2)
             args.putInt(WHAT_PAGE, 2);
         else if (tabNumber == 3)
@@ -83,23 +99,30 @@ public class SimpleTabFragment extends Fragment {
 
         } else if (getArguments().containsKey(WHERE_PAGE)) {
             rootView = inflater.inflate(R.layout.where, container, false);
+
+            if (mGoogleApiClient == null) {
+                mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                                    .addConnectionCallbacks(this)
+                                    .addOnConnectionFailedListener(this)
+                                    .addApi(LocationServices.API)
+                                    .build();
+            }
+
             Button button = (Button) rootView.findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent navigation = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr="
-                            + 38.990786 + ","
-                            + -76.9388159 + "&daddr="
-                            + 39.0051128 + "," + -76.9656447));
-                    navigation.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-
-                    startActivity(navigation);
+                    if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION);
+                    } else {
+                        getCurrentLocation();
+                    }
                 }
             });
 
         } else if (getArguments().containsKey(WHEN_PAGE)) {
             rootView = inflater.inflate(R.layout.when, container, false);
-        }  else if (getArguments().containsKey(HOW_PAGE)) {
+        } else if (getArguments().containsKey(HOW_PAGE)) {
             rootView = inflater.inflate(R.layout.how, container, false);
             ArrayList<String> topics = prepareTopicsHowPage();
             HashMap<String, List<String>> childText = prepareHowPageChildTextData(topics);
@@ -115,6 +138,22 @@ public class SimpleTabFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == LOCATION_PERMISSION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getCurrentLocation();
+        }
+    }
+
+    private void getCurrentLocation () {
+        mGoogleApiClient.connect();
+        if (mLocationManager == null)
+            mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        Log.d("getCurrentLocation: ", "getting ...");
+        mLocationManager.requestLocationUpdates(mLocationManager.GPS_PROVIDER, 0, 0, this);
     }
 
     private ArrayList<String> prepareCandidateData(){
@@ -225,6 +264,48 @@ public class SimpleTabFragment extends Fragment {
             childTextData.put(topic, contents);
         }
         return childTextData;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.d("current loc: ", String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
+        Intent navigation = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr="
+                + location.getLatitude() + ","
+                + location.getLongitude() + "&daddr="
+                + 39.0051128 + "," + -76.9656447));
+        navigation.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+
+        startActivity(navigation);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }
 
