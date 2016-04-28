@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * A tab fragment containing a simple view.
  */
-public class SimpleTabFragment extends Fragment implements LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener  {
+public class SimpleTabFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener  {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -47,7 +47,6 @@ public class SimpleTabFragment extends Fragment implements LocationListener, Goo
 
     private static int lastExpandedPosition = -1;
 
-    private LocationManager mLocationManager;
     private GoogleApiClient mGoogleApiClient;
 
     public SimpleTabFragment() {
@@ -115,7 +114,7 @@ public class SimpleTabFragment extends Fragment implements LocationListener, Goo
                     if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION);
                     } else {
-                        getCurrentLocation();
+                        mGoogleApiClient.connect();
                     }
                 }
             });
@@ -143,17 +142,9 @@ public class SimpleTabFragment extends Fragment implements LocationListener, Goo
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == LOCATION_PERMISSION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            getCurrentLocation();
+            Log.d("googleapiclient: ", "first connecting ...");
+            mGoogleApiClient.connect();
         }
-    }
-
-    private void getCurrentLocation () {
-        mGoogleApiClient.connect();
-        if (mLocationManager == null)
-            mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-        Log.d("getCurrentLocation: ", "getting ...");
-        mLocationManager.requestLocationUpdates(mLocationManager.GPS_PROVIDER, 0, 0, this);
     }
 
     private ArrayList<String> prepareCandidateData(){
@@ -267,35 +258,21 @@ public class SimpleTabFragment extends Fragment implements LocationListener, Goo
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        Log.d("current loc: ", String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
-        Intent navigation = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr="
-                + location.getLatitude() + ","
-                + location.getLongitude() + "&daddr="
-                + 39.0051128 + "," + -76.9656447));
-        navigation.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-
-        startActivity(navigation);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-    @Override
     public void onConnected(Bundle bundle) {
+        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (lastLocation != null) {
+            Log.d("lat lon: ", String.valueOf(lastLocation.getLatitude()) + " " + String.valueOf(lastLocation.getLongitude()));
+            Intent navigation = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr="
+                                                                            + lastLocation.getLatitude() + ","
+                                                                            + lastLocation.getLongitude() + "&daddr="
+                                                                            + 39.0051128 + "," + -76.9656447));
 
+            navigation.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+
+            startActivity(navigation);
+        }
+
+        mGoogleApiClient.disconnect();
     }
 
     @Override
