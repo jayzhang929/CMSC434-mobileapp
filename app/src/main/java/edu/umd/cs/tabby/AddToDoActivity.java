@@ -46,8 +46,6 @@ public class AddToDoActivity extends Activity {
 		setContentView(R.layout.add_notification);
 
 		mTitleText = (EditText) findViewById(R.id.title);
-		mDefaultStatusButton = (RadioButton) findViewById(R.id.statusNotDone);
-		mStatusRadioGroup = (RadioGroup) findViewById(R.id.statusGroup);
 		dateView = (TextView) findViewById(R.id.date);
 		timeView = (TextView) findViewById(R.id.time);
 
@@ -114,8 +112,6 @@ public class AddToDoActivity extends Activity {
 
 				// gather ToDoItem data
 
-
-				Status status = getStatus();
 				String titleString = mTitleText.getText().toString();
 
 
@@ -124,11 +120,11 @@ public class AddToDoActivity extends Activity {
 
 				// Package ToDoItem data into an Intent
 				Intent data = new Intent();
-				ToDoItem.packageIntent(data, titleString, status,
+				ToDoItem.packageIntent(data, titleString,
 						fullDate);
 
 				Intent intent = new Intent();
-				ToDoItem.packageIntent(intent, titleString, status, fullDate);
+				ToDoItem.packageIntent(intent, titleString, fullDate);
 				setResult(RESULT_OK, intent);
 				finish();
 			}
@@ -139,8 +135,6 @@ public class AddToDoActivity extends Activity {
 		setDefaultDateTime();
 
 		mTitleText.setText("");
-
-		mStatusRadioGroup.check(R.id.statusNotDone);
 	}
 
 	// Do not modify below this point.
@@ -192,17 +186,6 @@ public class AddToDoActivity extends Activity {
 		timeString = hour + ":" + min + ":00";
 	}
 
-	private Status getStatus() {
-
-		switch (mStatusRadioGroup.getCheckedRadioButtonId()) {
-		case R.id.statusDone: {
-			return Status.DONE;
-		}
-		default: {
-			return Status.NOTDONE;
-		}
-		}
-	}
 
 	private String getToDoTitle() {
 		return mTitleText.getText().toString();

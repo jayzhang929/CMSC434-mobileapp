@@ -153,8 +153,7 @@ public class ToDoManagerActivity extends ListActivity {
 			while (null != (title = reader.readLine())) {
 				status = reader.readLine();
 				date = ToDoItem.FORMAT.parse(reader.readLine());
-				mAdapter.add(new ToDoItem(title,
-						Status.valueOf(status), date));
+				mAdapter.add(new ToDoItem(title, date));
 			}
 
 		} catch (FileNotFoundException e) {

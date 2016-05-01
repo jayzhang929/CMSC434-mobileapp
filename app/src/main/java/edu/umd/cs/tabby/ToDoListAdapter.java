@@ -1,7 +1,11 @@
 package edu.umd.cs.tabby;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +19,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.umd.cs.tabby.ToDoItem.Status;
-
 
 public class ToDoListAdapter extends BaseAdapter {
 
@@ -84,7 +85,7 @@ public class ToDoListAdapter extends BaseAdapter {
 	// before created a new View.
 	// Consider using the ViewHolder pattern to make scrolling more efficient
 	// See: http://developer.android.com/training/improving-layouts/smooth-scrolling.html
-	
+
 	@Override
 	public View getView(final int position, View convertView, final ViewGroup parent) {
 
@@ -92,7 +93,7 @@ public class ToDoListAdapter extends BaseAdapter {
 
 
 		// from notification_listion_list.xml
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		final LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View itemLayout = inflater.inflate(R.layout.notification_list, parent, false);
 		// Fill in specific ToDoItem data
 		// Remember that the data that goes in this View
@@ -101,21 +102,6 @@ public class ToDoListAdapter extends BaseAdapter {
 
 		final TextView titleView = (TextView) itemLayout.findViewById(R.id.titleView);
 		titleView.setText(toDoItem.getTitle());
-
-
-		final CheckBox statusView = (CheckBox) itemLayout.findViewById(R.id.statusCheckBox);
-		statusView.setChecked(toDoItem.getStatus() == Status.DONE);
-		statusView.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-										 boolean isChecked) {
-				Log.i(TAG, "Entered onCheckedChanged()");
-				if (isChecked) {
-					toDoItem.setStatus(Status.DONE);
-				} else
-					toDoItem.setStatus(Status.NOTDONE);
-			}
-		});
 
 		Button delete_button = (Button)itemLayout.findViewById(R.id.delete_button);
 		delete_button.setOnClickListener(new View.OnClickListener() {
@@ -130,8 +116,20 @@ public class ToDoListAdapter extends BaseAdapter {
 		edit_button.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(parent.getContext(), AddToDoActivity.class);
-				startActivity(intent);
+				//Dialog dialog = new Dialog(parent.getContext());
+				//dialog.setContentView(R.layout.edit_dialog);
+				//dialog.show();
+				AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
+				builder.setView(R.layout.edit_dialog);
+				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+							}
+				});
+				builder.setNegativeButton(R.string.cancel_string, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+							}
+				});
+				builder.show();
 				notifyDataSetChanged();
 			}
 		});

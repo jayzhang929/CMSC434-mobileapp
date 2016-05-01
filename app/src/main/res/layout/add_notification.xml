@@ -28,42 +28,6 @@
         <requestFocus />
     </EditText>
 
-    <!-- Status -->
-
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/title"
-        android:layout_marginTop="25dp"
-        android:text="@string/status_string"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <RadioGroup
-        android:id="@+id/statusGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/status"
-        android:orientation="horizontal"
-        android:layout_marginTop="12dp" >
-
-        <RadioButton
-            android:id="@+id/statusDone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/done_string" />
-
-        <RadioButton
-            android:id="@+id/statusNotDone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/not_done_string" />
-    </RadioGroup>
-
-
 
 
     <!-- Time and Date -->
@@ -73,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/statusGroup"
+        android:layout_below="@id/title"
         android:layout_marginTop="25dp"
         android:text="@string/time_and_date_string"
         android:textAppearance="?android:attr/textAppearanceLarge" />

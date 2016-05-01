@@ -16,8 +16,6 @@ public class ToDoItem {
 	};
 
 	public final static String TITLE = "title";
-	public final static String PRIORITY = "priority";
-	public final static String STATUS = "status";
 	public final static String DATE = "date";
 	public final static String FILENAME = "filename";
 
@@ -25,12 +23,10 @@ public class ToDoItem {
 			"yyyy-MM-dd HH:mm:ss", Locale.US);
 
 	private String mTitle = new String();
-	private Status mStatus = Status.NOTDONE;
 	private Date mDate = new Date();
 
-	ToDoItem(String title, Status status, Date date) {
+	ToDoItem(String title, Date date) {
 		this.mTitle = title;
-		this.mStatus = status;
 		this.mDate = date;
 	}
 
@@ -39,7 +35,6 @@ public class ToDoItem {
 	ToDoItem(Intent intent) {
 
 		mTitle = intent.getStringExtra(ToDoItem.TITLE);
-		mStatus = Status.valueOf(intent.getStringExtra(ToDoItem.STATUS));
 
 		try {
 			mDate = ToDoItem.FORMAT.parse(intent.getStringExtra(ToDoItem.DATE));
@@ -57,14 +52,6 @@ public class ToDoItem {
 	}
 
 
-	public Status getStatus() {
-		return mStatus;
-	}
-
-	public void setStatus(Status status) {
-		mStatus = status;
-	}
-
 	public Date getDate() {
 		return mDate;
 	}
@@ -76,21 +63,20 @@ public class ToDoItem {
 	// Take a set of String data values and 
 	// package them for transport in an Intent
 
-	public static void packageIntent(Intent intent, String title, Status status, String date) {
+	public static void packageIntent(Intent intent, String title, String date) {
 
 		intent.putExtra(ToDoItem.TITLE, title);
-		intent.putExtra(ToDoItem.STATUS, status.toString());
 		intent.putExtra(ToDoItem.DATE, date);
 	
 	}
 
 	public String toString() {
-		return mTitle + ITEM_SEP + ITEM_SEP + mStatus + ITEM_SEP
+		return mTitle + ITEM_SEP + ITEM_SEP + ITEM_SEP
 				+ FORMAT.format(mDate);
 	}
 
 	public String toLog() {
-		return "Title:" + mTitle + ITEM_SEP + ITEM_SEP + "Status:" + mStatus + ITEM_SEP + "Date:"
+		return "Title:" + mTitle + ITEM_SEP + ITEM_SEP + ITEM_SEP + "Date:"
 				+ FORMAT.format(mDate) + "\n";
 	}
 
