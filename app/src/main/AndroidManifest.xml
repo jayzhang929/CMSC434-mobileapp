@@ -3,7 +3,7 @@
     package="edu.umd.cs.tabby">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -21,11 +21,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ToDoManagerActivity" >
+        <activity android:name=".ToDoManagerActivity"></activity>
+        <activity android:name=".AddToDoActivity"></activity>
+        <activity
+            android:name=".NotificationHistory"
+            android:label="@string/title_activity_notification_history"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.umd.cs.tabby.MainActivity" />
         </activity>
-        <activity android:name=".AddToDoActivity" >
-        </activity>
-
     </application>
 
 </manifest>

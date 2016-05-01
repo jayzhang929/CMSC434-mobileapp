@@ -78,9 +78,16 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+
         if (id == R.id.action_notifications) {
             Intent notification = new Intent(getApplicationContext(), ToDoManagerActivity.class);
             startActivity(notification);
+            return true;
+        }
+
+        if (id == R.id.notification_history) {
+            Intent intent = new Intent(this, NotificationHistory.class);
+            startActivity(intent);
             return true;
         }
 

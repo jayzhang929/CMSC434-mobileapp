@@ -23,21 +23,24 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/registrationDeadline"
+        android:text="REGISTRATION DEADLINE: "
         android:layout_marginTop="20dp"
-        android:gravity="center"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="until your Registration Deadline on:"
-        android:layout_marginBottom="16dp"
+        android:textSize="30dp"
         android:gravity="center"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="30dp"
+        android:layout_marginTop="10dp"
+        android:textSize="22dp"
         android:text="@string/register_deadline"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registrationDeadline"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"/>
 
     <View
         android:layout_width="match_parent"
@@ -48,20 +51,23 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/electionDate"
+        android:text="ELECTION DATE:"
         android:layout_marginTop="20dp"
-        android:gravity="center"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="until your Date of the Election on:"
-        android:layout_marginBottom="16dp"
+        android:textSize="30dp"
         android:gravity="center"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="30dp"
+        android:layout_marginTop="10dp"
+        android:textSize="22dp"
         android:text="@string/election_date"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/electionDate"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"/>
 
 </LinearLayout>

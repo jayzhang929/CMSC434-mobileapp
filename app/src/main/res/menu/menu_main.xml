@@ -2,6 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.umd.cs.tabby.MainActivity">
+
+    <item
+        android:title="@string/app_name"
+        android:id="@+id/notification_history"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_event_note_24dp" />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
