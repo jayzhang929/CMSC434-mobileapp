@@ -116,9 +116,12 @@ public class ToDoListAdapter extends BaseAdapter {
 		edit_button.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				//Dialog dialog = new Dialog(parent.getContext());
-				//dialog.setContentView(R.layout.edit_dialog);
-				//dialog.show();
+				Intent intent = new Intent(parent.getContext(), AddToDoActivity.class);
+				//add this todoItem to intent, start activity for result
+				intent.putExtra("Item", mItems.get(position));
+				intent.putE
+				parent.getContext().startActivity(intent);
+				/*
 				AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
 				builder.setView(R.layout.edit_dialog);
 				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -131,6 +134,7 @@ public class ToDoListAdapter extends BaseAdapter {
 				});
 				builder.show();
 				notifyDataSetChanged();
+				*/
 			}
 		});
 
