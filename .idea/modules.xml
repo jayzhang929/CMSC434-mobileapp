@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CMSC434-mobile-app.iml" filepath="$PROJECT_DIR$/CMSC434-mobile-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/CMSC434-mobileapp.iml" filepath="$PROJECT_DIR$/CMSC434-mobileapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
