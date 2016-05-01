@@ -1,5 +1,6 @@
 package edu.umd.cs.tabby;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -75,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+        if (id == R.id.action_notifications) {
+            Intent notification = new Intent(getApplicationContext(), ToDoManagerActivity.class);
+            startActivity(notification);
             return true;
         }
 
