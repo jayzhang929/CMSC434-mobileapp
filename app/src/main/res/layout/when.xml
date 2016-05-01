@@ -23,29 +23,45 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your Registration Deadline:"
-        android:textSize="30dp"
+        android:id="@+id/registrationDeadline"
         android:layout_marginTop="20dp"
+        android:gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="until your Registration Deadline on:"
         android:layout_marginBottom="16dp"
         android:gravity="center"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textSize="30dp"
         android:text="@string/register_deadline"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/check_color"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Date of the Election:"
-        android:textSize="30dp"
+        android:id="@+id/electionDate"
         android:layout_marginTop="20dp"
+        android:gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="until your Date of the Election on:"
         android:layout_marginBottom="16dp"
         android:gravity="center"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textSize="30dp"
         android:text="@string/election_date"/>
 
 </LinearLayout>

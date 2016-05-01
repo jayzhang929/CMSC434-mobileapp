@@ -9,6 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -26,6 +27,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,6 +45,8 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
     private static final String WHO_PAGE = "CANDIDATE_INFO";
     private static final String WHEN_PAGE = "WHEN PAGE";
     private static final String HOW_PAGE = "HOW PAGE";
+    private static final int OCTOBER = 9;
+    private static final int NOVEMBER = 10;
     public static final int LOCATION_PERMISSION = 1;
 
     private static int lastExpandedPosition = -1;
@@ -121,6 +125,44 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
 
         } else if (getArguments().containsKey(WHEN_PAGE)) {
             rootView = inflater.inflate(R.layout.when, container, false);
+            final TextView registrationDeadlineTextView = (TextView) rootView.findViewById(R.id.registrationDeadline);
+            final TextView electionDateTextView = (TextView) rootView.findViewById(R.id.electionDate);
+            Calendar calendar = Calendar.getInstance();
+            Long rightNowInMillis = calendar.getTimeInMillis();
+            // register deadline
+            calendar.set(2016, OCTOBER, 18);
+            final Long registerDeadlineInMillis = calendar.getTimeInMillis();
+
+            CountDownTimer registrationDeadlineCountDownTimer = new CountDownTimer((registerDeadlineInMillis - rightNowInMillis), 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    setCountDownText(registrationDeadlineTextView, millisUntilFinished);
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+            };
+            registrationDeadlineCountDownTimer.start();
+
+            // election date
+            calendar.set(2016, NOVEMBER, 8);
+            final Long electionDateInMillis = calendar.getTimeInMillis();
+
+            CountDownTimer electionDateCountDownTimer = new CountDownTimer((electionDateInMillis - rightNowInMillis), 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    setCountDownText(electionDateTextView, millisUntilFinished);
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+            };
+            electionDateCountDownTimer.start();
+
         } else if (getArguments().containsKey(HOW_PAGE)) {
             rootView = inflater.inflate(R.layout.how, container, false);
             ArrayList<String> topics = prepareTopicsHowPage();
@@ -283,6 +325,22 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
+    }
+
+    private void setCountDownText(TextView textView, Long millisUntilFinished) {
+        millisUntilFinished /= 1000;
+        Long seconds = millisUntilFinished % 60;
+        millisUntilFinished /= 60;
+        Long minutes = millisUntilFinished % 60;
+        millisUntilFinished /= 60;
+        Long hours = millisUntilFinished % 24;
+        millisUntilFinished /= 24;
+        Long days = millisUntilFinished;
+
+        textView.setText(String.valueOf(days) + " days "
+                + String.valueOf(hours) + " hours "
+                + String.valueOf(minutes) + " minutes "
+                + String.valueOf(seconds) + " seconds");
     }
 }
 
