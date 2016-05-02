@@ -26,7 +26,8 @@ import edu.umd.cs.tabby.ToDoItem.Status;
 
 public class ToDoManagerActivity extends ListActivity {
 
-	private static final int ADD_TODO_ITEM_REQUEST = 0;
+	public static final int ADD_TODO_ITEM_REQUEST = 0;
+	public static final int EDIT_TODO_ITEM_REQUEST = 1;
 	private static final String FILE_NAME = "TodoManagerActivityData.txt";
 	private static final String TAG = "Lab-UserInterface";
 
@@ -41,7 +42,7 @@ public class ToDoManagerActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		// Create a new TodoListAdapter for this ListActivity's ListView
-		mAdapter = new ToDoListAdapter(getApplicationContext());
+		mAdapter = new ToDoListAdapter(this);
 
 		// Put divider between ToDoItems and FooterView
 		getListView().setHeaderDividersEnabled(true);
@@ -50,12 +51,8 @@ public class ToDoManagerActivity extends ListActivity {
 		TextView headerView = null;
 		headerView = (TextView) getLayoutInflater().inflate(
 				R.layout.notify_list_header, null);
-		// NOTE: You can remove this block once you've implemented the assignment
-		if (null == headerView) {
-			return;
-		}
+
 		this.getListView().addHeaderView(headerView);
-		//this.getListView().addFooterView(footerView);
 
 		headerView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -194,4 +191,5 @@ public class ToDoManagerActivity extends ListActivity {
 			}
 		}
 	}
+
 }

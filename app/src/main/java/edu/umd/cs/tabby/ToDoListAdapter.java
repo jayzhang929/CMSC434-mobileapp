@@ -1,5 +1,6 @@
 package edu.umd.cs.tabby;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ToDoListAdapter extends BaseAdapter {
+
+	private static final int ADD_TODO_ITEM_REQUEST = 0;
 
 	private final List<ToDoItem> mItems = new ArrayList<ToDoItem>();
 	private final Context mContext;
@@ -116,36 +119,21 @@ public class ToDoListAdapter extends BaseAdapter {
 		edit_button.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(parent.getContext(), AddToDoActivity.class);
-				//add this todoItem to intent, start activity for result
+
+
+				Intent intent = new Intent(mContext.getApplicationContext(), AddToDoActivity.class);
 				intent.putExtra("Item", mItems.get(position));
-				intent.putE
-				parent.getContext().startActivity(intent);
-				/*
-				AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
-				builder.setView(R.layout.edit_dialog);
-				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-							}
-				});
-				builder.setNegativeButton(R.string.cancel_string, new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-							}
-				});
-				builder.show();
-				notifyDataSetChanged();
-				*/
+				//mContext.startActivityForResult(intent, ToDoManagerActivity.EDIT_TODO_ITEM_REQUEST);
+
 			}
 		});
 
 
 
 
-		// Hint - use ToDoItem.FORMAT.format(toDoItem.getDate()) to get date and
-		// time String
 		final TextView dateView = (TextView) itemLayout.findViewById(R.id.dateView);
 		dateView.setText(ToDoItem.FORMAT.format(toDoItem.getDate()));
-		// Return the View you just created
+
 		return itemLayout;
 
 	}

@@ -35,10 +35,9 @@ public class AddToDoActivity extends Activity {
 	private static TextView dateView;
 	private static TextView timeView;
 
+	private ToDoItem mItem;
 	private Date mDate;
-	private RadioGroup mStatusRadioGroup;
 	private EditText mTitleText;
-	private RadioButton mDefaultStatusButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +48,17 @@ public class AddToDoActivity extends Activity {
 		dateView = (TextView) findViewById(R.id.date);
 		timeView = (TextView) findViewById(R.id.time);
 
+		if(getIntent().getSerializableExtra("Item") != null) {
+			mItem = (ToDoItem) getIntent().getSerializableExtra("Item");
+			EditText titleText = (EditText) findViewById(R.id.title);
+			titleText.setText(mItem.getTitle());
+			setDateTimeFromItem(mItem);
+		} else {
+			setDefaultDateTime();
+		}
+
 		// Set the default date and time
 
-		setDefaultDateTime();
 
 		// OnClickListener for the Date button, calls showDatePickerDialog() to
 		// show the Date dialog
@@ -110,23 +117,29 @@ public class AddToDoActivity extends Activity {
 			public void onClick(View v) {
 				Log.i(TAG, "Entered submitButton.OnClickListener.onClick()");
 
-				// gather ToDoItem data
+				if(mItem == null) {
+					String titleString = mTitleText.getText().toString();
+					String fullDate = dateString + " " + timeString;
+					Intent data = new Intent();
+					ToDoItem.packageIntent(data, titleString,
+							fullDate);
 
-				String titleString = mTitleText.getText().toString();
+					Intent intent = new Intent();
+					ToDoItem.packageIntent(intent, titleString, fullDate);
+					setResult(RESULT_OK, intent);
+					finish();
+				} else{
+					String titleString = mTitleText.getText().toString();
+					String fullDate = dateString + " " + timeString;
+					Intent data = new Intent();
+					ToDoItem.packageIntent(data, titleString,
+							fullDate);
 
-
-				// Construct the Date string
-				String fullDate = dateString + " " + timeString;
-
-				// Package ToDoItem data into an Intent
-				Intent data = new Intent();
-				ToDoItem.packageIntent(data, titleString,
-						fullDate);
-
-				Intent intent = new Intent();
-				ToDoItem.packageIntent(intent, titleString, fullDate);
-				setResult(RESULT_OK, intent);
-				finish();
+					Intent intent = new Intent();
+					ToDoItem.packageIntent(intent, titleString, fullDate);
+					setResult(RESULT_OK, intent);
+					finish();
+				}
 			}
 		    });
 	}
@@ -144,6 +157,23 @@ public class AddToDoActivity extends Activity {
 		// Default is current time + 7 days
 		mDate = new Date();
 		mDate = new Date(mDate.getTime() + SEVEN_DAYS);
+
+		Calendar c = Calendar.getInstance();
+		c.setTime(mDate);
+
+		setDateString(c.get(Calendar.YEAR), c.get(Calendar.MONTH),
+				c.get(Calendar.DAY_OF_MONTH));
+
+		dateView.setText(dateString);
+
+		setTimeString(c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
+				c.get(Calendar.MILLISECOND));
+
+		timeView.setText(timeString);
+	}
+
+	private void setDateTimeFromItem(ToDoItem item) {
+		mDate = item.getDate();
 
 		Calendar c = Calendar.getInstance();
 		c.setTime(mDate);
