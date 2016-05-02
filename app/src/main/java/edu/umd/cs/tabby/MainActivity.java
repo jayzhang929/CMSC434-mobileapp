@@ -80,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_notifications) {
-            Intent notification = new Intent(getApplicationContext(), ToDoManagerActivity.class);
+            // Intent notification = new Intent(getApplicationContext(), ToDoManagerActivity.class);
+            Intent notification = new Intent(this, NotificationSetting.class);
             startActivity(notification);
             return true;
         }
