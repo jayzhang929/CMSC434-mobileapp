@@ -39,4 +39,5 @@
     <string name="enter_title_string">Enter Title</string>
     <string name="edit_dialog_title">Edit Notification</string>
     <string name="title_activity_notification_history">NotificationHistory</string>
+    <string name="title_activity_notification_setting">NotificationSetting</string>
 </resources>
