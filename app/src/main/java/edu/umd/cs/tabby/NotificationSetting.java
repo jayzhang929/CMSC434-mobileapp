@@ -20,11 +20,20 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Set;
+
 public class NotificationSetting extends AppCompatActivity {
 
     public final String PREFS_NAME = "SharedPrefs";
-    public final int PREFS_MODE = 0;
+    public final static String NOTI_NAME = "Notifications";
+    public final static int PREFS_MODE = 0;
+    public final static int NOTI_MODE = 1;
     private SharedPreferences mSharedPreferences;
+    private SharedPreferences mNotifications;
+    private String mCurrentDate;
 
     private final static String REGISTER_EMAIL = "registerEmail";
     private final static String REGISTER_TEXT = "registerText";
@@ -85,7 +94,12 @@ public class NotificationSetting extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        Date date = new Date();
+        mCurrentDate = dateFormat.format(date);
+
         mSharedPreferences = getSharedPreferences(PREFS_NAME, PREFS_MODE);
+        mNotifications = getSharedPreferences(NOTI_NAME, NOTI_MODE);
 
         buildCheckBoxes();
     }
@@ -188,7 +202,7 @@ public class NotificationSetting extends AppCompatActivity {
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                buildNotification(title, "05-02-2016");
+                buildNotification(title, mCurrentDate);
             }
         });
 
@@ -214,6 +228,9 @@ public class NotificationSetting extends AppCompatActivity {
         notification.setContentTitle(title);
         notification.setContentText(message);
         notification.setAutoCancel(true);
+
+        mNotifications.edit().putString("title", title).commit();
+        mNotifications.edit().putString("date", message).commit();
         // notification.setContentIntent(pendingIntent);
 
         notificationManager.notify(9999, notification.build());
