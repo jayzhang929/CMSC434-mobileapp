@@ -1,5 +1,6 @@
 package edu.umd.cs.tabby;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,8 @@ public class NotificationHistory extends AppCompatActivity {
 
     ArrayList<String> mTitles;
     ArrayList<String> mDates;
+    ArrayList<String> mCategories;
+    ArrayList<Drawable> mImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +25,10 @@ public class NotificationHistory extends AppCompatActivity {
 
         mTitles = populateTitles();
         mDates = populateDates();
+        mCategories = populateCategories();
 
         ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(new NotificationHistoryArrayAdapter(this, mTitles, mDates));
+        listView.setAdapter(new NotificationHistoryArrayAdapter(this, mTitles, mDates, mCategories));
 
     }
 
@@ -54,4 +58,23 @@ public class NotificationHistory extends AppCompatActivity {
         return dates;
     }
 
+    private ArrayList<String> populateCategories() {
+        ArrayList<String> categories = new ArrayList<>();
+        if (getSharedPreferences(NotificationSetting.NOTI_NAME, NotificationSetting.NOTI_MODE).contains("category"))
+            categories.add(getSharedPreferences(NotificationSetting.NOTI_NAME, NotificationSetting.NOTI_MODE).getString("category", "NA"));
+        categories.add("Polling");
+        categories.add("Deadlines");
+        categories.add("Deadlines");
+        categories.add("News");
+        categories.add("Events");
+
+        return categories;
+    }
+
+    /*
+    private ArrayList<Drawable> populateImages() {
+        ArrayList<Drawable> images = new ArrayList<>();
+        images.add()
+    }
+    */
 }

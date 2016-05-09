@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -55,7 +56,7 @@ public class NotificationSetting extends AppCompatActivity {
     private final static String POLLING = "Polling ...";
     private final static String CANDIDATE = "Picking a candidate ...";
     private final static String BALLOT = "Cast a ballot ...";
-    private final static String NEWS = "Lots happening on ...";
+    private final static String NEWS = "Lots going on ...";
     private final static String DEADLINES = "Deadlines approaching ...";
     private final static String EVENTS = "Lot going on ...";
 
@@ -114,7 +115,7 @@ public class NotificationSetting extends AppCompatActivity {
         setClickListenersForCheckBox(mRegisterText, REGISTER_TEXT);
 
         mRegisterCalendar = (ImageButton) findViewById(R.id.registerCalendar);
-        setClickListenersForImageButton(mRegisterCalendar, REGISTERING);
+        setClickListenersForImageButton(mRegisterCalendar, REGISTERING, "Register");
 
         mPollingEmail = (CheckBox) findViewById(R.id.pollingEmail);
         setClickListenersForCheckBox(mPollingEmail, POLLING_EMAIL);
@@ -123,7 +124,7 @@ public class NotificationSetting extends AppCompatActivity {
         setClickListenersForCheckBox(mPollingText, POLLING_TEXT);
 
         mPollingCalendar = (ImageButton) findViewById(R.id.pollingCalendar);
-        setClickListenersForImageButton(mPollingCalendar, POLLING);
+        setClickListenersForImageButton(mPollingCalendar, POLLING, "Polling");
 
         mCandidateEmail = (CheckBox) findViewById(R.id.candidateEmail);
         setClickListenersForCheckBox(mCandidateEmail, CANDIDATE_EMAIL);
@@ -132,7 +133,7 @@ public class NotificationSetting extends AppCompatActivity {
         setClickListenersForCheckBox(mCandidateText, CANDIDATE_TEXT);
 
         mCandidateCalendar = (ImageButton) findViewById(R.id.candidateCalendar);
-        setClickListenersForImageButton(mCandidateCalendar, CANDIDATE);
+        setClickListenersForImageButton(mCandidateCalendar, CANDIDATE, "Candidate");
 
         mBallotEmail = (CheckBox) findViewById(R.id.ballotEmail);
         setClickListenersForCheckBox(mBallotEmail, BALLOT_EMAIL);
@@ -141,7 +142,7 @@ public class NotificationSetting extends AppCompatActivity {
         setClickListenersForCheckBox(mBallotText, BALLOT_TEXT);
 
         mBallotCalendar = (ImageButton) findViewById(R.id.ballotCalendar);
-        setClickListenersForImageButton(mBallotCalendar, BALLOT);
+        setClickListenersForImageButton(mBallotCalendar, BALLOT, "Ballot");
 
         mNewsEmail = (CheckBox) findViewById(R.id.newsEmail);
         setClickListenersForCheckBox(mNewsEmail, NEWS_EMAIL);
@@ -150,7 +151,7 @@ public class NotificationSetting extends AppCompatActivity {
         setClickListenersForCheckBox(mNewsText, NEWS_TEXT);
 
         mNewsCalendar = (ImageButton) findViewById(R.id.newsCalendar);
-        setClickListenersForImageButton(mNewsCalendar, NEWS);
+        setClickListenersForImageButton(mNewsCalendar, NEWS, "News");
 
         mDeadlinesEmail = (CheckBox) findViewById(R.id.deadlinesEmail);
         setClickListenersForCheckBox(mDeadlinesEmail, DEADLINES_EMAIL);
@@ -159,7 +160,7 @@ public class NotificationSetting extends AppCompatActivity {
         setClickListenersForCheckBox(mDeadlinesText, DEADLINES_TEXT);
 
         mDeadlinesCalendar = (ImageButton) findViewById(R.id.deadlinesCalendar);
-        setClickListenersForImageButton(mDeadlinesCalendar, DEADLINES);
+        setClickListenersForImageButton(mDeadlinesCalendar, DEADLINES, "Deadlines");
 
         mEventsEmail = (CheckBox) findViewById(R.id.eventsEmail);
         setClickListenersForCheckBox(mEventsEmail, EVENTS_EMAIL);
@@ -168,14 +169,14 @@ public class NotificationSetting extends AppCompatActivity {
         setClickListenersForCheckBox(mEventsText, EVENTS_TEXT);
 
         mEventsCalendar = (ImageButton) findViewById(R.id.eventsCalendar);
-        setClickListenersForImageButton(mEventsCalendar, EVENTS);
+        setClickListenersForImageButton(mEventsCalendar, EVENTS, "Events");
     }
 
-    private void setClickListenersForImageButton (ImageButton imageButtons, final String title) {
+    private void setClickListenersForImageButton (ImageButton imageButtons, final String title, final String category) {
         imageButtons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startDialog(title);
+                startDialog(title, category);
             }
         });
     }
@@ -195,7 +196,7 @@ public class NotificationSetting extends AppCompatActivity {
         });
     }
 
-    private void startDialog(final String title) {
+    private void startDialog(final String title, final String category) {
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.calendar, (ViewGroup) findViewById(R.id.dialogLayout));
         Calendar calendar = Calendar.getInstance();
@@ -212,7 +213,7 @@ public class NotificationSetting extends AppCompatActivity {
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                buildNotification(title, mCurrentDate);
+                buildNotification(title, mCurrentDate, category);
             }
         });
 
@@ -227,7 +228,7 @@ public class NotificationSetting extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void buildNotification (String title, String message) {
+    private void buildNotification (String title, String message, String category) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         // Intent notificationIntent = new Intent(this, NotificationView.class);
@@ -241,8 +242,25 @@ public class NotificationSetting extends AppCompatActivity {
 
         mNotifications.edit().putString("title", title).commit();
         mNotifications.edit().putString("date", message).commit();
+        mNotifications.edit().putString("category", category).commit();
         // notification.setContentIntent(pendingIntent);
 
         notificationManager.notify(9999, notification.build());
+    }
+
+    public void displayCandidateSettingInfo(View view) {
+        TextView title = (TextView) findViewById(R.id.descriptionTitle);
+        TextView content = (TextView) findViewById(R.id.descriptionContent);
+
+        title.setText("About Candidate Setting:");
+        content.setText("Notify you with candidates' views on new issues");
+    }
+
+    public void displayEventsSettingInfo(View view) {
+        TextView title = (TextView) findViewById(R.id.descriptionTitle);
+        TextView content = (TextView) findViewById(R.id.descriptionContent);
+
+        title.setText("About Events Setting:");
+        content.setText("Notify you with up-to-date news on elections");
     }
 }

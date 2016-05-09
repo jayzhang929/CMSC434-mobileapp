@@ -4,19 +4,18 @@
     tools:context="edu.umd.cs.tabby.MainActivity">
 
     <item
-        android:title="@string/app_name"
-        android:id="@+id/notification_history"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_event_note_24dp" />
-
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-    app:showAsAction="never" />
-    <item
         android:id="@+id/action_notifications"
         android:orderInCategory="100"
         android:title="@string/action_notifications"
+        app:showAsAction="never" />
+    <item
+        android:title="Notification Hisotry"
+        android:id="@+id/action_notification_history"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_clear"
+        android:orderInCategory="100"
+        android:title="Clear"
         app:showAsAction="never" />
 </menu>
