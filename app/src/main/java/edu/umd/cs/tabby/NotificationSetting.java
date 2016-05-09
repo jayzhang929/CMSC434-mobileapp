@@ -18,10 +18,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
@@ -196,6 +198,14 @@ public class NotificationSetting extends AppCompatActivity {
     private void startDialog(final String title) {
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.calendar, (ViewGroup) findViewById(R.id.dialogLayout));
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+
+        DatePicker datePicker = (DatePicker) layout.findViewById(R.id.datePicker);
+
+        datePicker.init(year, month, day, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(layout);
 

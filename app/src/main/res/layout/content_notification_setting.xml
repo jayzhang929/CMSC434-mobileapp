@@ -25,15 +25,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="130dp"
+                android:paddingLeft="140dp"
                 android:text="Email"
                 android:textSize="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
+                android:paddingLeft="35dp"
                 android:text="Text"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="55dp"
+                android:text="Date"
                 android:textSize="20dp"/>
 
         </LinearLayout>
@@ -44,13 +51,19 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_live_help_24dp"
+                android:layout_weight=".1"/>
+
             <TextView
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
-                android:text="Register:     "
+                android:text="Register:"
                 android:textSize="20dp"
                 android:paddingTop="8dp"
-                android:layout_weight=".3"/>
+                android:layout_weight=".2"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
@@ -275,6 +288,12 @@
                 android:layout_weight=".1"/>
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/description"
+            android:text="To Be Filled"/>
 
     </LinearLayout>
 

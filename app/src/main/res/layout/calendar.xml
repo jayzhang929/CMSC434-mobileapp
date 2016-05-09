@@ -5,10 +5,10 @@
     android:orientation="vertical"
     android:id="@+id/dialogLayout">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Register to Vote"/>
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></DatePicker>
 
     <RadioGroup
         android:layout_width="match_parent"
@@ -18,27 +18,21 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/oneTime"
+            android:text="One time on this date"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/daily"
-            android:text="Daily"/>
+            android:text="Daily from this date"/>
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/weekly"
-            android:text="Weekly"
+            android:text="Weekly from this date"
             android:checked="true"/>
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/biweekly"
-            android:text="Bi-Weekly"/>
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/monthly"
-            android:text="Monthly"/>
 
     </RadioGroup>
 
