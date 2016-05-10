@@ -16,6 +16,6 @@
     <item
         android:id="@+id/action_clear"
         android:orderInCategory="100"
-        android:title="Clear"
+        android:title="Other Settings"
         app:showAsAction="never" />
 </menu>

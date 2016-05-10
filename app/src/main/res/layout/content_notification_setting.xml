@@ -346,7 +346,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:id="@+id/descriptionContent"
-            android:textSize="15dp"
+            android:textSize="18dp"
             android:text="Notify you with requirements when registering to vote"/>
 
     </LinearLayout>
