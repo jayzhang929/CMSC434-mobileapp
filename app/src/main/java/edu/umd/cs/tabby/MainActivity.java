@@ -74,19 +74,14 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == R.id.action_notifications) {
-            Intent notification = new Intent(getApplicationContext(), ToDoManagerActivity.class);
+            // Intent notification = new Intent(getApplicationContext(), ToDoManagerActivity.class);
+            Intent notification = new Intent(this, NotificationSetting.class);
             startActivity(notification);
             return true;
         }
 
-<<<<<<< Updated upstream
-=======
-        if (id == R.id.notification_history) {
+        if (id == R.id.action_notification_history) {
             Intent intent = new Intent(this, NotificationHistory.class);
             startActivity(intent);
             return true;
@@ -98,7 +93,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
->>>>>>> Stashed changes
+        if (id == R.id.action_clear) {
+            getSharedPreferences(NotificationSetting.NOTI_NAME, NotificationSetting.NOTI_MODE).edit().clear().commit();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
