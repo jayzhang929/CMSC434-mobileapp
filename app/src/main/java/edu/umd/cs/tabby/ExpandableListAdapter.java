@@ -1,12 +1,14 @@
 package edu.umd.cs.tabby;
 
 import android.content.Context;
-import android.text.Layout;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,11 +21,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context mContext;
     private List<String> mGroupTitles;
     private HashMap<String, List<String>> mChildText;
+    private HashMap<String, List<String>> mLinkText;
 
-    public ExpandableListAdapter (Context context, List<String> groupTitles, HashMap<String, List<String>> childText) {
+    public ExpandableListAdapter (Context context, List<String> groupTitles, HashMap<String, List<String>> childText, HashMap<String, List<String>> linkText) {
         mContext = context;
         mGroupTitles = groupTitles;
         mChildText = childText;
+        mLinkText = linkText;
     }
 
     @Override
@@ -83,6 +87,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView childText = (TextView) convertView.findViewById(R.id.childText);
         childText.setText((String) getChild(groupPosition, childPosition));
+        if(mLinkText != null) {
+            //TextView linkText = (TextView) convertView.findViewById(R.id.campaignLink);
+            //linkText.setText((String) mLinkText.get(mGroupTitles.get(groupPosition)).get(childPosition));
+            //linkText.setMovementMethod(LinkMovementMethod.getInstance());
+        } else {
+            TextView linkText = (TextView) convertView.findViewById(R.id.campaignLink);
+            linkText.setText("");
+        }
 
         return convertView;
     }

@@ -84,6 +84,21 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+<<<<<<< Updated upstream
+=======
+        if (id == R.id.notification_history) {
+            Intent intent = new Intent(this, NotificationHistory.class);
+            startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.action_election_day) {
+            Intent intent = new Intent(this, ElectionDayPage.class);
+            startActivity(intent);
+            return true;
+        }
+
+>>>>>>> Stashed changes
         return super.onOptionsItemSelected(item);
     }
 
