@@ -87,6 +87,12 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.action_election_day) {
+            Intent intent = new Intent(this, ElectionDayPage.class);
+            startActivity(intent);
+            return true;
+        }
+
         if (id == R.id.action_clear) {
             getSharedPreferences(NotificationSetting.NOTI_NAME, NotificationSetting.NOTI_MODE).edit().clear().commit();
             return true;

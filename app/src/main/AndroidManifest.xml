@@ -41,6 +41,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.umd.cs.tabby.MainActivity" />
         </activity>
+        <activity
+            android:name=".ElectionDayPage"
+            android:label="@string/title_activity_election_day"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.umd.cs.tabby.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

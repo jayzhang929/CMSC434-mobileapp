@@ -88,9 +88,11 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
             rootView = inflater.inflate(R.layout.who, container, false);
             final ArrayList<String> candidates = prepareCandidateData();
             HashMap<String, List<String>> childText = prepareChildTextData(candidates);
+            HashMap<String, List<String>> linkText = prepareChildLinkTextData(candidates);
+
             ExpandableListView expandableListView = (ExpandableListView) rootView.findViewById(R.id.expLstView);
 
-            buildExpandableList(expandableListView, candidates, childText);
+            buildExpandableList(expandableListView, candidates, childText, linkText);
 
         } else if (getArguments().containsKey(WHAT_PAGE)) {
             rootView = inflater.inflate(R.layout.what, container, false);
@@ -98,7 +100,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
             HashMap<String, List<String>> childText = prepareWhatPageChildTextData(topics);
             ExpandableListView expandableListView = (ExpandableListView) rootView.findViewById(R.id.whatPageExpLstView);
 
-            buildExpandableList(expandableListView, topics, childText);
+            buildExpandableList(expandableListView, topics, childText, null);
 
         } else if (getArguments().containsKey(WHERE_PAGE)) {
             rootView = inflater.inflate(R.layout.where, container, false);
@@ -169,7 +171,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
             HashMap<String, List<String>> childText = prepareHowPageChildTextData(topics);
             ExpandableListView expandableListView = (ExpandableListView) rootView.findViewById(R.id.HowPageExpLstView);
 
-            buildExpandableList(expandableListView, topics, childText);
+            buildExpandableList(expandableListView, topics, childText, null);
 
         } else {
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -191,10 +193,10 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
 
     private ArrayList<String> prepareCandidateData(){
         ArrayList<String> candidates = new ArrayList<String>();
-        candidates.add("Hillary Clinton");
-        candidates.add("Bernie Sanders");
-        candidates.add("Ted Cruz");
-        candidates.add("Trump");
+        candidates.add("Hillary Clinton (D)");
+        candidates.add("Bernie Sanders (D)");
+        candidates.add("Ted Cruz (R)");
+        candidates.add("Donald Trump (R)");
 
         return candidates;
     }
@@ -204,16 +206,16 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
         for (String candidate : candidates) {
             ArrayList<String> description = new ArrayList<String>();
             switch (candidate) {
-                case "Hillary Clinton":
+                case "Hillary Clinton (D)":
                     description.add(getResources().getString(R.string.clinton_description));
                     break;
-                case "Bernie Sanders":
+                case "Bernie Sanders (D)":
                     description.add(getResources().getString(R.string.sanders_description));
                     break;
-                case "Ted Cruz":
+                case "Ted Cruz (R)":
                     description.add(getResources().getString(R.string.cruz_description));
                     break;
-                case "Trump":
+                case "Donald Trump (R)":
                     description.add(getResources().getString(R.string.trump_description));
                     break;
             }
@@ -223,20 +225,45 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
         return childText;
     }
 
-    private void buildExpandableList(ExpandableListView expandableListView, ArrayList<String> group, HashMap<String, List<String>> children) {
-        ExpandableListAdapter adapter = new ExpandableListAdapter(getActivity(), group, children);
+    private HashMap<String, List<String>> prepareChildLinkTextData(ArrayList<String> candidates){
+        HashMap<String, List<String>> childText = new HashMap<String, List<String>>();
+        for (String candidate : candidates) {
+            ArrayList<String> description = new ArrayList<String>();
+            switch (candidate) {
+                case "Hillary Clinton (D)":
+                    description.add(getResources().getString(R.string.clinton_campaign_link));
+                    break;
+                case "Bernie Sanders (D)":
+                    description.add(getResources().getString(R.string.clinton_campaign_link));
+                    break;
+                case "Ted Cruz (R)":
+                    description.add(getResources().getString(R.string.clinton_campaign_link));
+                    break;
+                case "Donald Trump (R)":
+                    description.add(getResources().getString(R.string.clinton_campaign_link));
+                    break;
+            }
+            childText.put(candidate, description);
+        }
+
+        return childText;
+    }
+
+    private void buildExpandableList(ExpandableListView expandableListView, ArrayList<String> group, HashMap<String, List<String>> children, HashMap<String, List<String>> links) {
+        ExpandableListAdapter adapter = new ExpandableListAdapter(getActivity(), group, children, links);
         expandableListView.setAdapter(adapter);
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                if (lastExpandedPosition != -1)
-                    parent.collapseGroup(lastExpandedPosition);
+                //if (lastExpandedPosition != -1)
+                //    parent.collapseGroup(lastExpandedPosition);
 
                 if (lastExpandedPosition != groupPosition) {
                     parent.expandGroup(groupPosition);
                     lastExpandedPosition = groupPosition;
                 } else
-                    lastExpandedPosition = -1;
+                    //lastExpandedPosition = -1;
+                    parent.collapseGroup(lastExpandedPosition);
 
                 return true;
             }
@@ -273,9 +300,10 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
 
     private ArrayList<String> prepareTopicsHowPage() {
         ArrayList<String> topics = new ArrayList<>();
-        topics.add("Definition");
-        topics.add("Candidate Process");
-        topics.add("Election Process");
+        topics.add("Determine Eligibility");
+        topics.add("Register");
+        topics.add("Absentee");
+        topics.add("Go to the Polls");
         return topics;
     }
 
@@ -284,14 +312,17 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
         for (String topic : topics) {
             ArrayList<String> contents = new ArrayList<>();
             switch (topic) {
-                case "Definition":
-                    contents.add(getResources().getString(R.string.how_definition));
+                case "Determine Eligibility":
+                    contents.add(getResources().getString(R.string.how_eligibility));
                     break;
-                case "Candidate Process":
-                    contents.add(getResources().getString(R.string.how_candidate_process));
+                case "Register":
+                    contents.add(getResources().getString(R.string.how_register));
                     break;
-                case "Election Process":
-                    contents.add(getResources().getString(R.string.how_information));
+                case "Absentee":
+                    contents.add(getResources().getString(R.string.how_absentee));
+                    break;
+                case "Go to the Polls":
+                    contents.add(getResources().getString(R.string.how_polls));
                     break;
             }
             childTextData.put(topic, contents);

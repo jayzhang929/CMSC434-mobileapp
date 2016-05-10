@@ -8,11 +8,18 @@
         android:orderInCategory="100"
         android:title="@string/action_notifications"
         app:showAsAction="never" />
+
     <item
         android:title="Notification Hisotry"
         android:id="@+id/action_notification_history"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_election_day"
+        android:orderInCategory="100"
+        android:title="@string/action_election_day"
+        app:showAsAction="never"/>
+
     <item
         android:id="@+id/action_clear"
         android:orderInCategory="100"
