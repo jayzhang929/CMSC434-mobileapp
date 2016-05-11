@@ -17,6 +17,8 @@ public class ElectionDayPage extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Election Day Page");
+
+        // set the action bar title
+        getSupportActionBar().setTitle("Election Day");
     }
 }

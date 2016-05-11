@@ -18,6 +18,7 @@ import java.util.List;
  */
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
+    // the adapter contains those instance variables
     private Context mContext;
     private List<String> mGroupTitles;
     private HashMap<String, List<String>> mChildText;
@@ -67,11 +68,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        // if the convertView is null, inflate with the xml
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.who_group_title, null);
         }
 
+        // set the text for the group title
         TextView groupTitle = (TextView) convertView.findViewById(R.id.groupTitle);
         groupTitle.setText(mGroupTitles.get(groupPosition));
 
@@ -80,17 +83,17 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        // if the converView is null, inflate with the xml
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.who_child_text, null);
         }
 
+        // set the text for the child text
         TextView childText = (TextView) convertView.findViewById(R.id.childText);
         childText.setText((String) getChild(groupPosition, childPosition));
         if(mLinkText != null) {
-            //TextView linkText = (TextView) convertView.findViewById(R.id.campaignLink);
-            //linkText.setText((String) mLinkText.get(mGroupTitles.get(groupPosition)).get(childPosition));
-            //linkText.setMovementMethod(LinkMovementMethod.getInstance());
+
         } else {
             TextView linkText = (TextView) convertView.findViewById(R.id.campaignLink);
             linkText.setText("");

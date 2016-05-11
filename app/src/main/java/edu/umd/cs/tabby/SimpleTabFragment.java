@@ -86,25 +86,32 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
         View rootView;
         if (getArguments().containsKey(WHO_PAGE)) {
             rootView = inflater.inflate(R.layout.who, container, false);
+
+            // instantiate and populates data needed for list adapter
             final ArrayList<String> candidates = prepareCandidateData();
             HashMap<String, List<String>> childText = prepareChildTextData(candidates);
             HashMap<String, List<String>> linkText = prepareChildLinkTextData(candidates);
 
             ExpandableListView expandableListView = (ExpandableListView) rootView.findViewById(R.id.expLstView);
 
+            // build the expandable list for the WHO page
             buildExpandableList(expandableListView, candidates, childText, linkText);
 
         } else if (getArguments().containsKey(WHAT_PAGE)) {
             rootView = inflater.inflate(R.layout.what, container, false);
+
+            // instantiate and populates data needed for list adapter
             ArrayList<String> topics = prepareTopicsWhatPage();
             HashMap<String, List<String>> childText = prepareWhatPageChildTextData(topics);
             ExpandableListView expandableListView = (ExpandableListView) rootView.findViewById(R.id.whatPageExpLstView);
 
+            // build the expandable list for the WHAT page
             buildExpandableList(expandableListView, topics, childText, null);
 
         } else if (getArguments().containsKey(WHERE_PAGE)) {
             rootView = inflater.inflate(R.layout.where, container, false);
 
+            // instantiate GoogleApiClient
             if (mGoogleApiClient == null) {
                 mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                                     .addConnectionCallbacks(this)
@@ -117,6 +124,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // check whether the app has the permission to access the user's current location
                     if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION);
                     } else {
@@ -135,6 +143,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
             calendar.set(2016, OCTOBER, 18);
             final Long registerDeadlineInMillis = calendar.getTimeInMillis();
 
+            // set the CountDownTimer
             CountDownTimer registrationDeadlineCountDownTimer = new CountDownTimer((registerDeadlineInMillis - rightNowInMillis), 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -152,6 +161,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
             calendar.set(2016, NOVEMBER, 8);
             final Long electionDateInMillis = calendar.getTimeInMillis();
 
+            // set the CountDownTimer
             CountDownTimer electionDateCountDownTimer = new CountDownTimer((electionDateInMillis - rightNowInMillis), 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -167,10 +177,13 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
 
         } else if (getArguments().containsKey(HOW_PAGE)) {
             rootView = inflater.inflate(R.layout.how, container, false);
+
+            // instantiate and populates data needed for list adapter
             ArrayList<String> topics = prepareTopicsHowPage();
             HashMap<String, List<String>> childText = prepareHowPageChildTextData(topics);
             ExpandableListView expandableListView = (ExpandableListView) rootView.findViewById(R.id.HowPageExpLstView);
 
+            // build the expandable list for the HOW page
             buildExpandableList(expandableListView, topics, childText, null);
 
         } else {
@@ -186,11 +199,12 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == LOCATION_PERMISSION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d("googleapiclient: ", "first connecting ...");
+            // connect to GoogleApiClient once the app gains the user loation for the first time
             mGoogleApiClient.connect();
         }
     }
 
+    // this method instantiates and populates the candidate data
     private ArrayList<String> prepareCandidateData(){
         ArrayList<String> candidates = new ArrayList<String>();
         candidates.add("Hillary Clinton (D)");
@@ -201,6 +215,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
         return candidates;
     }
 
+    // this method instantiates and populates the child text data
     private HashMap<String, List<String>> prepareChildTextData(ArrayList<String> candidates){
         HashMap<String, List<String>> childText = new HashMap<String, List<String>>();
         for (String candidate : candidates) {
@@ -225,6 +240,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
         return childText;
     }
 
+    // this method instantiates and populates the child link data
     private HashMap<String, List<String>> prepareChildLinkTextData(ArrayList<String> candidates){
         HashMap<String, List<String>> childText = new HashMap<String, List<String>>();
         for (String candidate : candidates) {
@@ -249,20 +265,21 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
         return childText;
     }
 
+    // this method builds the list view
     private void buildExpandableList(ExpandableListView expandableListView, ArrayList<String> group, HashMap<String, List<String>> children, HashMap<String, List<String>> links) {
+        // instantiate the adapter
         ExpandableListAdapter adapter = new ExpandableListAdapter(getActivity(), group, children, links);
         expandableListView.setAdapter(adapter);
+
+        // set the click listener for the group title
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                //if (lastExpandedPosition != -1)
-                //    parent.collapseGroup(lastExpandedPosition);
 
                 if (lastExpandedPosition != groupPosition) {
                     parent.expandGroup(groupPosition);
                     lastExpandedPosition = groupPosition;
                 } else
-                    //lastExpandedPosition = -1;
                     parent.collapseGroup(lastExpandedPosition);
 
                 return true;
@@ -270,6 +287,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
         });
     }
 
+    // this method instantiates and populates the WHAT page data
     private ArrayList<String> prepareTopicsWhatPage() {
         ArrayList<String> topics = new ArrayList<String>();
         topics.add("Definition");
@@ -278,6 +296,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
         return topics;
     }
 
+    // this method instantiates and populates the WHAT page child text data
     private HashMap<String, List<String>> prepareWhatPageChildTextData(ArrayList<String> topics) {
         HashMap<String, List<String>> childTextData = new HashMap<>();
         for (String topic : topics) {
@@ -298,6 +317,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
         return childTextData;
     }
 
+    // this method instantiates and populates the topics for HOW page
     private ArrayList<String> prepareTopicsHowPage() {
         ArrayList<String> topics = new ArrayList<>();
         topics.add("Determine Eligibility");
@@ -307,6 +327,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
         return topics;
     }
 
+    // this method instantiates and populates the HOW page child text data
     private HashMap<String, List<String>> prepareHowPageChildTextData(ArrayList<String> topics) {
         HashMap<String, List<String>> childTextData = new HashMap<>();
         for (String topic : topics) {
@@ -332,6 +353,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
 
     @Override
     public void onConnected(Bundle bundle) {
+        // get the user's current location once the GoogleApiClient is connected
         Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (lastLocation != null) {
             Log.d("lat lon: ", String.valueOf(lastLocation.getLatitude()) + " " + String.valueOf(lastLocation.getLongitude()));
@@ -345,6 +367,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
             startActivity(navigation);
         }
 
+        // disconnect the GoogleApiClient once it finished
         mGoogleApiClient.disconnect();
     }
 
@@ -358,6 +381,7 @@ public class SimpleTabFragment extends Fragment implements GoogleApiClient.Conne
 
     }
 
+    // this method set the text for the count down timer
     private void setCountDownText(TextView textView, Long millisUntilFinished) {
         millisUntilFinished /= 1000;
         Long seconds = millisUntilFinished % 60;

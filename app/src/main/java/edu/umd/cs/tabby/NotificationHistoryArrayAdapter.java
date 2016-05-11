@@ -37,6 +37,7 @@ public class NotificationHistoryArrayAdapter extends ArrayAdapter<String> {
         TextView date = (TextView) rootView.findViewById(R.id.notificationHistoryDate);
         TextView category = (TextView) rootView.findViewById(R.id.category);
 
+        // set text and color
         title.setText(mValues.get(position));
         date.setText(mDates.get(position));
         category.setText(mCategories.get(position));
@@ -45,6 +46,7 @@ public class NotificationHistoryArrayAdapter extends ArrayAdapter<String> {
         return rootView;
     }
 
+    // this method set the color of category text
     private void setCategoryColor(TextView category) {
         int color;
         switch ((String) category.getText()) {

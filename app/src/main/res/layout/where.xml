@@ -34,6 +34,8 @@
             android:layout_weight=".5"
             android:layout_marginRight="50dp"
             android:text="Get Directions"
+            android:textColor="@color/white"
+            android:background="@color/colorPrimary"
             android:id="@+id/button"/>
     </LinearLayout>
 

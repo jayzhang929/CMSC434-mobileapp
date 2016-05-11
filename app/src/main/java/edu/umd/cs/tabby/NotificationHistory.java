@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class NotificationHistory extends AppCompatActivity {
 
+    // those are the data structures needed for the notification history page
     ArrayList<String> mTitles;
     ArrayList<String> mDates;
     ArrayList<String> mCategories;
-    ArrayList<Drawable> mImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,17 +23,21 @@ public class NotificationHistory extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // instantiate and populate the instance variables/structures
         mTitles = populateTitles();
         mDates = populateDates();
         mCategories = populateCategories();
 
+        // set the adapter for the ListView
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new NotificationHistoryArrayAdapter(this, mTitles, mDates, mCategories));
 
     }
 
+    // this method instantiate and populate titles
     private ArrayList<String> populateTitles() {
         ArrayList<String> titles = new ArrayList<>();
+        // check whether new notification pushed
         if (getSharedPreferences(NotificationSetting.NOTI_NAME, NotificationSetting.NOTI_MODE).contains("title"))
             titles.add(getSharedPreferences(NotificationSetting.NOTI_NAME, NotificationSetting.NOTI_MODE).getString("title", "NA"));
         titles.add("Lookup Polling Location");
@@ -45,8 +49,10 @@ public class NotificationHistory extends AppCompatActivity {
         return titles;
     }
 
+    // this method instantiate and populate dates
     private ArrayList<String> populateDates() {
         ArrayList<String> dates = new ArrayList<>();
+        // check whether new notification pushed
         if (getSharedPreferences(NotificationSetting.NOTI_NAME, NotificationSetting.NOTI_MODE).contains("date"))
             dates.add(getSharedPreferences(NotificationSetting.NOTI_NAME, NotificationSetting.NOTI_MODE).getString("date", "NA"));
         dates.add("04-18-2016");
@@ -58,8 +64,10 @@ public class NotificationHistory extends AppCompatActivity {
         return dates;
     }
 
+    // this method instantiate and populate categories
     private ArrayList<String> populateCategories() {
         ArrayList<String> categories = new ArrayList<>();
+        // check whether new notification pushed
         if (getSharedPreferences(NotificationSetting.NOTI_NAME, NotificationSetting.NOTI_MODE).contains("category"))
             categories.add(getSharedPreferences(NotificationSetting.NOTI_NAME, NotificationSetting.NOTI_MODE).getString("category", "NA"));
         categories.add("Polling");
@@ -71,10 +79,4 @@ public class NotificationHistory extends AppCompatActivity {
         return categories;
     }
 
-    /*
-    private ArrayList<Drawable> populateImages() {
-        ArrayList<Drawable> images = new ArrayList<>();
-        images.add()
-    }
-    */
 }

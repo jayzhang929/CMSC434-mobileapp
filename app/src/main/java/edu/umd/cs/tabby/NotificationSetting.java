@@ -38,6 +38,7 @@ public class NotificationSetting extends AppCompatActivity {
     private SharedPreferences mNotifications;
     private String mCurrentDate;
 
+    // instantiating strings for different topics
     private final static String REGISTER_EMAIL = "registerEmail";
     private final static String REGISTER_TEXT = "registerText";
     private final static String POLLING_EMAIL = "pollingEmail";
@@ -52,13 +53,13 @@ public class NotificationSetting extends AppCompatActivity {
     private final static String DEADLINES_TEXT = "deadlinesText";
     private final static String EVENTS_EMAIL = "eventsEmail";
     private final static String EVENTS_TEXT = "eventsText";
-    private final static String REGISTERING = "Registering ...";
-    private final static String POLLING = "Polling ...";
-    private final static String CANDIDATE = "Picking a candidate ...";
-    private final static String BALLOT = "Cast a ballot ...";
-    private final static String NEWS = "Lots going on ...";
-    private final static String DEADLINES = "Deadlines approaching ...";
-    private final static String EVENTS = "Lot going on ...";
+    private final static String REGISTERING = "Registering to vote";
+    private final static String POLLING = "Check your polling place";
+    private final static String CANDIDATE = "Pick a candidate";
+    private final static String BALLOT = "Read sample ballot";
+    private final static String NEWS = "Donald Trump dropped out";
+    private final static String DEADLINES = "Deadlines approaching";
+    private final static String EVENTS = "Hillary Clinton rally tonight";
 
     private CheckBox mRegisterEmail;
     private CheckBox mRegisterText;
@@ -97,16 +98,20 @@ public class NotificationSetting extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // set the date format for the current day
         DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         Date date = new Date();
         mCurrentDate = dateFormat.format(date);
 
+        // instantiate the two sharedPreferences
         mSharedPreferences = getSharedPreferences(PREFS_NAME, PREFS_MODE);
         mNotifications = getSharedPreferences(NOTI_NAME, NOTI_MODE);
 
+        // add click listeners for all the check boxes
         buildCheckBoxes();
     }
 
+    // this method adds all click listeners for the check boxes
     private void buildCheckBoxes () {
         mRegisterEmail = (CheckBox) findViewById(R.id.registerEmail);
         setClickListenersForCheckBox(mRegisterEmail, REGISTER_EMAIL);
@@ -172,6 +177,7 @@ public class NotificationSetting extends AppCompatActivity {
         setClickListenersForImageButton(mEventsCalendar, EVENTS, "Events");
     }
 
+    // this method set the click listener for the date setting icon
     private void setClickListenersForImageButton (ImageButton imageButtons, final String title, final String category) {
         imageButtons.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,6 +187,7 @@ public class NotificationSetting extends AppCompatActivity {
         });
     }
 
+    // this method set the click listener for the check box
     private void setClickListenersForCheckBox (CheckBox checkBox, final String key) {
         if (mSharedPreferences.contains(key))
             checkBox.setChecked(true);
@@ -196,6 +203,7 @@ public class NotificationSetting extends AppCompatActivity {
         });
     }
 
+    // this method starts a dialog
     private void startDialog(final String title, final String category) {
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.calendar, (ViewGroup) findViewById(R.id.dialogLayout));
@@ -206,10 +214,13 @@ public class NotificationSetting extends AppCompatActivity {
 
         DatePicker datePicker = (DatePicker) layout.findViewById(R.id.datePicker);
 
+        // instantiate the DatePicker
         datePicker.init(year, month, day, null);
 
+        // build the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(layout);
 
+        // set up the click listeners for the two buttons
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -228,26 +239,26 @@ public class NotificationSetting extends AppCompatActivity {
         alertDialog.show();
     }
 
+    // this function builds the notification pushed in the notification bar
     private void buildNotification (String title, String message, String category) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        // Intent notificationIntent = new Intent(this, NotificationView.class);
-        // PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-
+        // instantiate notification builder
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this);
         notification.setSmallIcon(R.drawable.ic_bookmark_outline_24dp);
         notification.setContentTitle(title);
         notification.setContentText(message);
         notification.setAutoCancel(true);
 
+        // put notification information to the sharedPreferences
         mNotifications.edit().putString("title", title).commit();
         mNotifications.edit().putString("date", message).commit();
         mNotifications.edit().putString("category", category).commit();
-        // notification.setContentIntent(pendingIntent);
 
         notificationManager.notify(9999, notification.build());
     }
 
+    // this method populates the textview for candidate description
     public void displayCandidateSettingInfo(View view) {
         TextView title = (TextView) findViewById(R.id.descriptionTitle);
         TextView content = (TextView) findViewById(R.id.descriptionContent);
@@ -256,6 +267,7 @@ public class NotificationSetting extends AppCompatActivity {
         content.setText("Notify you with candidates' views on new issues");
     }
 
+    // this method populates the textview for event description
     public void displayEventsSettingInfo(View view) {
         TextView title = (TextView) findViewById(R.id.descriptionTitle);
         TextView content = (TextView) findViewById(R.id.descriptionContent);

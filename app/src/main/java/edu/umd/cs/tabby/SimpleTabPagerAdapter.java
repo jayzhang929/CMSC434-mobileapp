@@ -1,11 +1,10 @@
 package edu.umd.cs.tabby;
 
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-
+// FragmentPagerAdapter for ViewPager
 public class SimpleTabPagerAdapter extends FragmentPagerAdapter {
 
     final int PAGE_COUNT = 5;
@@ -19,7 +18,7 @@ public class SimpleTabPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
+        // get a new instance for each view of the fragment
         return SimpleTabFragment.newInstance(position + 1);
     }
 
