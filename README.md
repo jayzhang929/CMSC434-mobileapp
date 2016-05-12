@@ -1,4 +1,8 @@
-# CMSC434-mobileapp
+# Empowering The Voter: CMSC434-mobileapp
+<p>This github repo implements the mobile app for Team 2's Empowering the Voter project for CSMC434. The mobile app was implemented in Android and the goal of this mobile app is to help voters manage the election process by providing them key election info and allowing them to modify notifications and check notification history. </p>
+
+<p>Team 2 is composed of four seniors: Jay Zhang, Justin Miller, Cindy Ren, and Mihai Sirbu. Jay and Justin were in charge of this mobile app and worked on its implementation throughout all three versions.  </p>
+
 <h2>Description:</h2>
 <p>Upon downloading and opening the app, you will land on the WHO fragment, which is one of the five fragments (WHO, WHAT, WHERE, WHEN, HOW). You can either click the tab bar on the bottom to navigate around the app, or simply swipe each fragment. The app will have the full functionality ONLY IF you have Maps App installed on your phone.</p>
 
